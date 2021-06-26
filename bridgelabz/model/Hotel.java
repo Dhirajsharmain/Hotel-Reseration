@@ -2,10 +2,10 @@ package bridgelabz.model;
 
 public class Hotel {
     private String hotelName;
-    private  String wDayRegularRate;
-    private  String wDayRewardRate;
-    private  String wEndRegularRate;
-    private  String wEndRewardRate;
+    private String wDayRegularRate;
+    private String wDayRewardRate;
+    private String wEndRegularRate;
+    private String wEndRewardRate;
 
     public String getHotelName() {
         return hotelName;

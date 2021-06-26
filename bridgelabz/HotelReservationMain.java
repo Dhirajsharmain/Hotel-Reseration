@@ -10,14 +10,12 @@ package bridgelabz;
 
 import bridgelabz.model.Hotel;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class HotelReservationMain {
 
     private static Scanner scanner = new Scanner(System.in);
-    private static Map<String,Hotel> hotelsMap = new  HashMap<>();
+    private static List<Hotel> hotelsMap = new ArrayList<>();
     public static void main(String[] args) {
         boolean exit = false;
         do {
@@ -60,6 +58,6 @@ public class HotelReservationMain {
         System.out.print("Enter Weekend Reward Rate : ");
         hotel.setwEndRewardRate(scanner.nextLine());
 
-        hotelsMap.put(hotel.getHotelName(),hotel);
+        hotelsMap.add(hotel);
     }
 }
