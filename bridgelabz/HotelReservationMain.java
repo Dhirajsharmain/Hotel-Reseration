@@ -14,9 +14,10 @@ import java.util.*;
 
 public class HotelReservationMain {
 
-    private static Scanner scanner = new Scanner(System.in);
-    private static List<Hotel> hotelsMap = new ArrayList<>();
+    private static final Scanner scanner = new Scanner(System.in);
+    private static List<Hotel> hotelsList = new ArrayList<>();
     public static void main(String[] args) {
+        HotelReservationMain hotelReservationMain = new HotelReservationMain();
         boolean exit = false;
         do {
             System.out.println("\n\t\tWelcome To Hotel Reservation");
@@ -27,10 +28,10 @@ public class HotelReservationMain {
             switch (userInput) {
                 case 'A':
                     //add
-                    addHotel();
+                    hotelReservationMain.addHotel();
                     break;
-                case 'E':
-                    //edit
+                case 'F':
+                   //find
                     break;
                 case 'Q':
                     //quit
@@ -45,8 +46,9 @@ public class HotelReservationMain {
     /**
      * Method for adding hotel detail.
      */
-    private static void addHotel(){
+    public boolean addHotel(){
         Hotel hotel = new Hotel();
+        try {
         System.out.print("Enter Hotel Name : ");
         hotel.setHotelName(scanner.nextLine());
         System.out.print("Enter Weekdays Regular Rate : ");
@@ -57,7 +59,11 @@ public class HotelReservationMain {
         hotel.setwEndRegularRate(scanner.nextLine());
         System.out.print("Enter Weekend Reward Rate : ");
         hotel.setwEndRewardRate(scanner.nextLine());
-
-        hotelsMap.add(hotel);
+        hotelsList.add(hotel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
+
 }
