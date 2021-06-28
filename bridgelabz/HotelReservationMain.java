@@ -11,17 +11,22 @@ package bridgelabz;
 import bridgelabz.exception.validationException;
 import bridgelabz.model.Hotel;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
 
+import static bridgelabz.utility.Util.dayBetweenDates;
 import static bridgelabz.utility.Util.findWeekDay;
 
 public class HotelReservationMain {
 
-    private static Scanner scanner = new Scanner(System.in);
-    private static List<Hotel> hotelsMap = new ArrayList<>();
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final List<Hotel> hotelList = new ArrayList<>();
 
     /**
      * Main Method or starting point of this program
+     *
      * @param args
      * @throws validationException
      */
@@ -33,28 +38,36 @@ public class HotelReservationMain {
             System.out.println("\t\tEnter F to Find Cheapest Hotel ");
             System.out.print("\t\tPlease Select One Option : ");
             char userInput = scanner.nextLine().toUpperCase().charAt(0);
+
             switch (userInput) {
                 case 'A':
                     //add
                     Hotel hotel = new Hotel();
                     System.out.print("\nEnter Hotel Name : ");
                     hotel.setHotelName(scanner.nextLine());
+                    System.out.print("Enter Rating Out of 5 : ");
+                    hotel.setRating(scanner.nextInt());
                     System.out.print("Enter Weekdays Regular Rate : ");
-                    hotel.setwDayRegularRate(scanner.nextLine());
+                    hotel.setwDayRegularRate(scanner.nextInt());
                     System.out.print("Enter Weekdays Reward Rate : ");
-                    hotel.setwDayRewardRate(scanner.nextLine());
+                    hotel.setwDayRewardRate(scanner.nextInt());
                     System.out.print("Enter Weekend Regular Rate : ");
-                    hotel.setwEndRegularRate(scanner.nextLine());
+                    hotel.setwEndRegularRate(scanner.nextInt());
                     System.out.print("Enter Weekend Reward Rate : ");
-                    hotel.setwEndRewardRate(scanner.nextLine());
+                    hotel.setwEndRewardRate(scanner.nextInt());
                     addHotel(hotel);
+                    scanner.nextLine();
                     break;
                 case 'F':
                     System.out.print("\nEnter First Date : ");
                     String userIn1 = scanner.nextLine();
                     System.out.print("Enter Second Date : ");
                     String userIn2 = scanner.nextLine();
-                    findCheapestHotel(userIn1,userIn2);
+                    System.out.print("Enter Customer Type : ");
+                    String customerType = scanner.nextLine().toUpperCase();
+                    System.out.println(customerType);
+
+                    findCheapestHotel(customerType, userIn1, userIn2);
                     break;
                 case 'Q':
                     //quit
@@ -62,8 +75,11 @@ public class HotelReservationMain {
                     break;
                 default:
                     System.out.println("Please select correct option");
+
             }
         } while (!exit);
+
+        scanner.close();
     }
 
     /**
@@ -71,7 +87,7 @@ public class HotelReservationMain {
      */
     private static void addHotel(Hotel hotel) throws validationException {
         try {
-            hotelsMap.add(hotel);
+            hotelList.add(hotel);
         } catch (Exception e) {
             throw new validationException(e.getMessage());
         }
@@ -79,24 +95,43 @@ public class HotelReservationMain {
 
     /**
      * Method for finding the cheapest hotel in between given dates.
+     *
      * @param startingDate : Starting date of range
-     * @param endDate : End date of range
+     * @param endDate      : End date of range
      */
-    public static void findCheapestHotel(String startingDate, String endDate) throws validationException {
-        try {
-            String resultFirst = findWeekDay(startingDate);
-            String resultSecond = findWeekDay(endDate);
-            if (resultFirst == "SATURDAY" || resultSecond == "SUNDAY") {
-                Hotel temp = hotelsMap.stream().min(Comparator.comparing(Hotel::getwEndRegularRate)).get();
-                System.out.println(temp);
-            } else {
-                Hotel temp2 = hotelsMap.stream().min(Comparator.comparing(Hotel::getwDayRegularRate)).get();
-                System.out.println(temp2);
-            }
-        } catch (Exception e) {
-            throw new validationException(e.getMessage());
+    public static void findCheapestHotel(String customerType, String startingDate, String endDate) throws validationException {
+        int temp;
+        String dayFirst = findWeekDay(startingDate);
+        String daySecond = findWeekDay(endDate);
+        long difference = dayBetweenDates(startingDate, endDate);
+        switch (customerType) {
+            case "REGULAR":
+                try {
+
+                    if (dayFirst.equals("Saturday") || daySecond.equals("Sunday") || dayFirst.equals("Sunday")) {
+                        temp = hotelList.stream().min(Comparator.comparing(Hotel::getwEndRegularRate)).get().getwEndRegularRate();
+                    } else {
+                        temp = hotelList.stream().min(Comparator.comparing(Hotel::getwDayRegularRate)).get().getwDayRegularRate();
+                    }
+                } catch (Exception e) {
+                    throw new validationException(e.getMessage());
+                }
+                break;
+            case "REWARDS":
+                try {
+                    if (dayFirst.equals("Sunday")) {
+                        temp = hotelList.stream().min(Comparator.comparing(Hotel::getwEndRewardRate)).get().getwEndRewardRate();
+                    } else if (dayFirst.equals("Saturday") || daySecond.equals("Sunday")) {
+                        temp = hotelList.stream().min(Comparator.comparing(Hotel::getwEndRewardRate)).get().getwEndRewardRate();
+                    } else {
+                        temp = hotelList.stream().min(Comparator.comparing(Hotel::getwDayRewardRate)).get().getwDayRewardRate();
+                    }
+                } catch (Exception e) {
+                    throw new validationException(e.getMessage());
+                }
+                break;
+            default:
+                System.out.println("Invalid Input");
         }
     }
-
-
 }

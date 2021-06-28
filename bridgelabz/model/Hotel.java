@@ -2,10 +2,11 @@ package bridgelabz.model;
 
 public class Hotel {
     private String hotelName;
-    private String wDayRegularRate;
-    private String wDayRewardRate;
-    private String wEndRegularRate;
-    private String wEndRewardRate;
+    private Integer rating;
+    private int wDayRegularRate;
+    private int wDayRewardRate;
+    private int wEndRegularRate;
+    private int wEndRewardRate;
 
     public String getHotelName() {
         return hotelName;
@@ -16,35 +17,43 @@ public class Hotel {
         this.hotelName = hotelName;
     }
 
-    public String getwDayRegularRate() {
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public int getwDayRegularRate() {
         return wDayRegularRate;
     }
 
-    public void setwDayRegularRate(String wDayRegularRate) {
+    public void setwDayRegularRate(int wDayRegularRate) {
         this.wDayRegularRate = wDayRegularRate;
     }
 
-    public String getwDayRewardRate() {
+    public int getwDayRewardRate() {
         return wDayRewardRate;
     }
 
-    public void setwDayRewardRate(String wDayRewardRate) {
+    public void setwDayRewardRate(int wDayRewardRate) {
         this.wDayRewardRate = wDayRewardRate;
     }
 
-    public String getwEndRegularRate() {
+    public int getwEndRegularRate() {
         return wEndRegularRate;
     }
 
-    public void setwEndRegularRate(String wEndRegularRate) {
+    public void setwEndRegularRate(int wEndRegularRate) {
         this.wEndRegularRate = wEndRegularRate;
     }
 
-    public String getwEndRewardRate() {
+    public int getwEndRewardRate() {
         return wEndRewardRate;
     }
 
-    public void setwEndRewardRate(String wEndRewardRate) {
+    public void setwEndRewardRate(int wEndRewardRate) {
         this.wEndRewardRate = wEndRewardRate;
     }
 
@@ -52,10 +61,11 @@ public class Hotel {
     public String toString() {
         return "Hotel{" +
                 "hotelName='" + hotelName + '\'' +
-                ", wDayRegularRate='" + wDayRegularRate + '\'' +
-                ", wDayRewardRate='" + wDayRewardRate + '\'' +
-                ", wEndRegularRate='" + wEndRegularRate + '\'' +
-                ", wEndRewardRate='" + wEndRewardRate + '\'' +
+                ", rating=" + rating +
+                ", wDayRegularRate=" + wDayRegularRate +
+                ", wDayRewardRate=" + wDayRewardRate +
+                ", wEndRegularRate=" + wEndRegularRate +
+                ", wEndRewardRate=" + wEndRewardRate +
                 '}';
     }
 }
